@@ -48,15 +48,6 @@ gulp.task('javascript', () => {
     .pipe(gulp.dest('./src/js'));
 });
 
-// Gulp depencencies copy
-gulp.task('copy', () => {
-  return gulp.src([
-    './node_modules/jquery/dist/jquery.min.js',
-    './node_modules/jquery-ui-dist/jquery-ui.min.js'
-  ])
-  .pipe(copy('./src/js/libraries', { prefix: 3 }));
-});
-
 // Metalsmith build task
 gulp.task('build', (done) => {
   metalsmith((error) => {
@@ -96,6 +87,22 @@ gulp.task('build-helper', ['build'], (done) => {
     if (bsFlag()) return bs.reload();
   }));
 });
+
+gulp.task('static-deploy', ['build'], (done) => {
+  const bsFlag = (() => {
+    let status = false;
+    return (bool) => {
+      if (bool) status = true;
+      return status;
+    };
+  })();
+  gulp.src(['./build/pages/**/*'])
+  .pipe(gulp.dest('build'))
+  .on('end', () => del([
+    './build/pages/',
+    './build/templates/'
+  ]),
+)});
 
 // Standalone server
 gulp.task('serve', (done) => {

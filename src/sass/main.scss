@@ -10,15 +10,12 @@
 
 // 2. Vendors
 @import
-  'vendor/faq',
-  'vendor/slider',
-  'vendor/gallery',
-  'vendor/timeline',
   'vendor/reset';
 
 // 3. Base stuff
 @import
   'base/base',
+  'base/spacing',
   'base/typography',
   'base/helpers';
 
